@@ -6,14 +6,12 @@ This project is a port of the famous Free Admin Bootstrap Theme [SB Admin v5.0](
 
 Powered by [StartAngular](http://startangular.com/) & [StrapUI](http://strapui.com/)
 
-## [Demo](http://rawgit.com/start-angular/SB-Admin-BS4-Angular-5/master/dist/)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
 
 ### Introduction
 Provides fast, reliable and extensible starter for the development of Angular projects.
 
-`sb-admin-bs4-angular5` provides the following features:
+`iSiteWatch` provides the following features:
 - Developed using boostrap-v4.0.0-beta.2
 - angular-v5.0.1
 - angular/cli-v1.5.0
@@ -30,8 +28,8 @@ Provides fast, reliable and extensible starter for the development of Angular pr
 
 In order to start the project use:
 ```bash
-$ git clone https://github.com/start-angular/SB-Admin-BS4-Angular-5
-$ cd SB-Admin-BS4-Angular-5
+$ git clone https://github.com/karthi1987/iSiteWatch.git
+$ cd iSiteWatch
 # install the project's dependencies
 $ npm install
 # watches your files and uses livereload by default run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -40,6 +38,16 @@ $ npm start
 # the produced code can be deployed (rsynced) to a remote server
 $ npm run build
 ```
+
+### If you happened to see any erros run the command below,
+```bash
+$ npm uninstall --save-dev webpack
+$ rm -rf node_modules
+$ npm cache clean
+$ npm install
+$ npm start
+```
+You will see them working.
 
 ### Code scaffolding
 
