@@ -10,7 +10,7 @@ AWS.config.update({
     credentials: new AWS.Credentials(AppDefaults.ACCESS_KEY_ID, AppDefaults.SECRET_KEY)
 });
 
-const dynamodb = new AWS.DynamoDB();
+const dynamodb = new AWS.DynamoDB({ region: 'us-east-1' });
 
 @Component({
     selector: 'app-login',
@@ -28,16 +28,18 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
 
-        console.log(this.username);
-        console.log(this.userpass);
+        //usertest Covfefe0!
+        /*dynamodb.listTables({ Limit: 10 }, function( error, data ){
+            debugger;
+        });*/
 
         const params = {
             AttributesToGet: [
-                'cust_pass'
+                'user_pass', 'user_name', 'site_id', 'customer_id'
             ],
-            TableName : 'hwcustomer',
+            TableName : 'user',
             Key : {
-                'cust_login' : {
+                'user_login' : {
                     'S' : this.username
                 }
             }
@@ -46,18 +48,27 @@ export class LoginComponent implements OnInit {
         const passValue = this.userpass;
         const userValue = this.username;
         dynamodb.getItem(params, function(err, data) {
+
             if (err) {
                 console.log(err); // an error occurred
             } else {
-                if (data.Item === null || data.Item === undefined || data.Item.cust_pass === undefined) {
-                    console.log('Bad password or user name');
-                } else {
-                    if (passValue === data.Item.cust_pass.S) {
+
+                if ( data &&  data.Item && data.Item.user_pass && data.Item.user_pass.S ) {
+                    const userName = data.Item.user_name.S;
+                    const siteId = data.Item.site_id.S;
+                    const customerId = data.Item.customer_id.S;
+                    const password = data.Item.user_pass.S;
+
+                    if ( passValue === data.Item.user_pass.S ) {
                         localStorage.setItem('isLoggedin', 'true');
-                        localStorage.setItem('userName', userValue);
+                        localStorage.setItem('siteId', siteId);
+                        localStorage.setItem('customerId', customerId);
+                        localStorage.setItem('userName', userName);
                     } else {
                         console.log('Bad user name or password');
                     }
+                } else {
+                    console.log('Bad password or user name');
                 }
             }
         });
