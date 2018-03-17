@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
 
     onLoggedin() {
 
+        //Test
+
         //usertest Covfefe0!
         /*dynamodb.listTables({ Limit: 10 }, function( error, data ){
             debugger;
