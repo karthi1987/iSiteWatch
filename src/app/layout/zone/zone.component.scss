@@ -1,0 +1,97 @@
+
+
+.page-zone {
+	display: flex;
+	flex-flow: column wrap;
+	width: 100%;
+	.page-header {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		.title {
+			display: flex;
+			width: 40%;
+		}
+		.user-actions {
+			display: flex;
+			width: 60%;
+			justify-content: flex-start;
+			align-items: center;
+		    .fa {
+	    		margin-right: 2%;
+			}
+    	}
+	}
+	.page-header-date-selector {
+		display: flex;
+		.trigger {
+			display: flex;
+			width: 30px;
+			height: 30px;
+			.fa-calendar {
+			    margin: 21% 0 0 20%;
+			}
+		}
+	}
+	.page-hero-and-date-selector {
+		display: flex;
+		width: 100%;
+		min-height: 450px;
+		justify-content: center;
+		align-items: center;
+		flex-flow: row nowrap;
+		margin: 2% 0 0 0;
+		.page-date-selector-for-a-week {
+			display: flex;
+			width: 100%;
+			flex-flow: row wrap;
+			padding-left: 2%;
+		}
+		.page-date-selector-for-a-week {
+			/*display: flex;
+			flex-flow: column wrap;
+			justify-content: center;
+			align-items: center;*/
+			display: block;
+			column-count: 2;
+			column-width: 150px;
+			height: 565px;
+			overflow: hidden;
+			.date-first-and-second-row {
+				/*display: flex;*/
+				width: 100%;
+				flex-flow: row wrap;
+				justify-content: space-between;
+				margin: 0 0 5% 0;
+				/*height: 175px;*/
+				.date-row-image {
+					margin: 5% 0 0 0;
+					height: 135px;
+				}
+				.date-frist-day, .date-second-day {
+					/*display: flex;
+					flex-flow: column nowrap;*/
+					display: block;
+					height: 175px;
+					.date-wrapper {
+						min-height: 20px;
+					}
+				}
+			}
+		}
+	}
+	.page-hero-image {
+		width: 100%;
+	}
+	.page-footer-image-carousel {
+		display: flex;
+		flex-flow: row nowrap;
+		margin: 2% 0 0 0;
+	}
+	.gallery-layout-outer {
+		display: flex;
+		width: 800px;
+	}
+}

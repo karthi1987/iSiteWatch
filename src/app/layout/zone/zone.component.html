@@ -1,0 +1,39 @@
+<div class="page-zone" [@routerTransition]>
+	<div class="page-header">
+		<div class="title"><p>Zone 1 detail & 1 week history</p></div>
+		<div class="user-actions">
+			<span class="fa fa-copy"></span>
+			<span class="fa fa-download"></span>
+			<span class="fa fa-envelope"></span>
+		</div>
+	</div>
+	<div class="page-header-date-selector">
+	    <input #datePicker [owlDateTime]="dt1" [(ngModel)]="selectedDate" placeholder={{maxDate}} [min]="minDate" [max]="maxDate">
+	    <span class="trigger" [owlDateTimeTrigger]="dt1">
+    		<span class="fa fa-calendar"></span>
+	    </span>
+	    <owl-date-time [pickerType]="'calendar'" [pickerMode]="'popup'" #dt1 ></owl-date-time>
+	</div>
+	<div class="page-hero-and-date-selector">
+		<div class="page-hero-image"> 
+			<!-- <img src="assets/images/image_1.jpeg" /> -->
+			<ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="gallery-layout-outer"></ngx-gallery>
+		 </div>
+		<div class="page-date-selector-for-a-week">
+			<div class="date-first-and-second-row" *ngFor="let thumbDates of thumbnailDates">
+				<div class="date-frist-day" *ngIf="thumbDates.label != selectedDate">
+					<div class="date-wrapper">
+						{{thumbDates.label | date:'MM/dd/yyyy'}}
+					</div>
+					<div class="date-row-image">
+						<a href="javascript:void(0)" (click)="setImageGalleryViewByDate( thumbDates )" >
+							<img src="assets/images/image_1.jpeg" width="200">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page-footer-image-carousel"> 
+	 </div>
+</div>
