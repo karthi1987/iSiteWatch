@@ -157,9 +157,11 @@ export class DashboardComponent implements OnInit {
             this.boxWidget.activate();
         }
 
-        $('.widget-user-header').click(function() {
-            this.window.location = $(this).find('a').attr('href');
+        /*$('.widget-user-header').click(function() {
+            //this.window.location = $(this).find('a').attr('href');
             return false;
+        });*/
+/*
         });
 /*
         //Activate direct chat widget
