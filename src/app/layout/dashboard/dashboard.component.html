@@ -1,4 +1,20 @@
 <div [@routerTransition]>
+
+    <input id="project1" name="project" class="project">
+    <br>
+    <br>
+    <label for="project" class="label-container">Project: </label>
+    <select id="project" class="select-container" [(ngModel)]="selectedProjectId">
+        <option *ngFor="let p of projects" [ngValue]="id">{{p.name}}</option>
+    </select>
+    <br>
+    <label for="site" class="label-container">Site: </label>
+    <select id="site" class="select-container" [(ngModel)]="selectedSiteId">
+        <option *ngFor="let s of sites" [ngValue]="id">{{s.name}}</option>
+    </select>
+    <br>
+    <br>
+
     <h2 class="text-muted">KALCON ST. PAUL SITE</h2>
     <hr>
     <div class="page-header">

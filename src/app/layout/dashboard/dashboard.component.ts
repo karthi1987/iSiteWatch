@@ -15,6 +15,23 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     public options: any = new MenuConfig();
 
+    selectedProjectId: '';
+    selectedSiteId: '';
+
+    projects = [
+        {id: 1, name: 'Project 1'},
+        {id: 2, name: 'Project 2'},
+        {id: 3, name: 'Project 3'},
+        {id: 4, name: 'Project 4'}
+    ];
+
+    sites = [
+        {id: 1, name: 'Site A'},
+        {id: 2, name: 'Site B'},
+        {id: 3, name: 'Site C'},
+        {id: 4, name: 'Site D'}
+    ];
+
     constructor() {
         this.sliders.push(
             {
@@ -122,6 +139,16 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         console.log('Calling ngOnInit for dashboard');
 
+        //
+        // userDetails.isDefaultViewSet()
+
+        // defaults = dataService.getDefaultViewDetails(username);
+
+        // projects = dataService.getProjects(username);
+        // sites = dataService.getSites(username, projects[0]);
+
+
+
         // Easy access to options
         var o = this.options;
 
@@ -134,7 +161,7 @@ export class DashboardComponent implements OnInit {
             this.window.location = $(this).find('a').attr('href');
             return false;
         });
-/*        
+/*
         //Activate direct chat widget
         if (o.directChat.enable) {
             $(document).on('click', o.directChat.contactToggleSelector, function () {
