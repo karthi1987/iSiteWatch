@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit {
          }
 
          if( sessionStorage ) {
-              sessionStorage.setItem('userDetails', JSON.stringify( loginResults['data'] ));
+          sessionStorage.setItem('userDetails', JSON.stringify( loginResults['data'] ));
          }
          return loginResults;
        },

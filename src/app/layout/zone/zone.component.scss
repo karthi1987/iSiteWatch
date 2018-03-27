@@ -1,9 +1,18 @@
-
-
 .page-zone {
 	display: flex;
 	flex-flow: column wrap;
 	width: 100%;
+	h3 {
+		font-size: 1.25rem;
+		font-weight: 500;
+	}
+	.horizontal-line {
+		width: 100%;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		border: 0;
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	}
 	.page-header {
 		display: flex;
 		flex-flow: row nowrap;
@@ -12,7 +21,8 @@
 		width: 100%;
 		.title {
 			display: flex;
-			width: 40%;
+			width: 75%;
+			text-transform: uppercase;
 		}
 		.user-actions {
 			display: flex;
@@ -26,6 +36,11 @@
 	}
 	.page-header-date-selector {
 		display: flex;
+		margin: 0.8% 0 0 0;
+		input {
+			font-size: 1.1em;
+			font-weight: 700;
+		}
 		.trigger {
 			display: flex;
 			width: 30px;
