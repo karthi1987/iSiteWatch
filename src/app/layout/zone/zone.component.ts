@@ -141,8 +141,10 @@ export class ZoneComponent implements OnInit {
             width: '900px',
             height: '600px',
             thumbnailsColumns: 4,
-            preview: false,
+            preview: true,
             imageArrows: false,
+            imageAutoPlay: false,
+            imageAutoPlayPauseOnHover: false, 
             imageAnimation: NgxGalleryAnimation.Slide
         },
         {
@@ -157,6 +159,7 @@ export class ZoneComponent implements OnInit {
         },
         {
             breakpoint: 400,
+            width: '100%',
             preview: false
         }
     ];
@@ -217,6 +220,7 @@ export class ZoneComponent implements OnInit {
                    cImages['small'] = i['image'];
                    cImages['medium'] = i['image'];
                    cImages['big'] = i['image'];
+                   cImages['description'] = i['hhmm'];
                    galleyCustomizedImages.push( cImages );
                    return cImages;
                  })
@@ -233,7 +237,6 @@ export class ZoneComponent implements OnInit {
          //return Observable.throw(error);
        }
     );
-
 }
 
 }

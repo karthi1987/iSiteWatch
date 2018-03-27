@@ -7,7 +7,8 @@
 			<span class="fa fa-envelope"></span>
 		</div>
 	</div>
-	<hr />
+	<div class="horizontal-line"></div>
+	<div><h3>Simply change the the date for additional pitcures</h3></div>
 	<div class="page-header-date-selector">
 	    <input (ngModelChange)="setDateByUserSelect($event)" #datePicker [owlDateTime]="dt1"
 	     [(ngModel)]="selectedDate" placeholder={{minDate}} [min]="minDate" [max]="maxDate">
@@ -16,6 +17,7 @@
 	    </span>
 	    <owl-date-time [pickerType]="'calendar'" [pickerMode]="'popup'" #dt1 ></owl-date-time>
 	</div>
+	<div class="horizontal-line"></div>
 	<div class="page-hero-and-date-selector">
 		<div class="page-hero-image">
 			<input type="hidden" [(ngModel)]="selectedObject" name="selectedObject">
@@ -38,9 +40,9 @@
 							</a>
 						</div>
 					</ng-template>
-					<ng-template [ngIf]="thumbDates.galleryImages == 0">
+					<ng-template [ngIf]="thumbDates.galleryImages?.length == 0">
 						<div class="no-image">
-							<img src="assets/images/no-image.svg" width="200">
+							<img src="assets/images/slider1.jpg" width="200">
 						</div>
 					</ng-template>
 				</div>
