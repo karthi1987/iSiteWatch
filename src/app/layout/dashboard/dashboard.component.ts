@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { MenuConfig } from '../../../config/menu.config';
 import * as $ from 'jquery';
+import {DataService} from "../../shared/services/data.service";
 
 
 @Component({
@@ -15,7 +16,33 @@ export class DashboardComponent implements OnInit {
     public sliders: Array<any> = [];
     public options: any = new MenuConfig();
 
-    constructor() {
+    selectedSiteId;
+    projectName;
+    sites = [];
+    locations;
+    userData;
+
+    getProjectSites() {
+        console.log(this.userData);
+        this.dataService.getSites(this.userData)
+            .subscribe(
+                (results:any) => {
+                this.sites = results.data;
+                },
+                error => console.error("Fetching details of project sites failed"));
+    }
+
+    getSiteLocations() {
+        this.userData.siteId = this.selectedSiteId;
+        this.dataService.getLocations(this.userData)
+            .subscribe(
+                (results:any) => {
+                this.locations = results.data;
+                },
+                error => console.error("Fetching details of site locations failed"));
+    }
+
+    constructor(private dataService: DataService) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
@@ -122,6 +149,34 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         console.log('Calling ngOnInit for dashboard');
 
+        const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
+
+        this.projectName = userDetails.customer.customer_busname;
+        this.userData = {
+            userLogin: userDetails.user_login,
+            userToken: userDetails.user_token,
+            customerID: userDetails.customer_id,
+            siteId: userDetails.site_id
+        };
+
+        this.getProjectSites();
+
+        /*this.dataService.getSites(this.userData)
+            .subscribe((data:any) => {
+                console.log(data);
+                this.sites = data;
+            });*/
+
+        //
+        // userDetails.isDefaultViewSet()
+
+        // defaults = dataService.getDefaultViewDetails(username);
+
+        // projects = dataService.getProjects(username);
+        // sites = dataService.getSites(username, projects[0]);
+
+
+
         // Easy access to options
         var o = this.options;
 
@@ -134,30 +189,47 @@ export class DashboardComponent implements OnInit {
             //this.window.location = $(this).find('a').attr('href');
             return false;
         });*/
-/*        
-        //Activate direct chat widget
-        if (o.directChat.enable) {
-            $(document).on('click', o.directChat.contactToggleSelector, function () {
-                var box = $(this).parents('.direct-chat').first();
-                box.toggleClass('direct-chat-contacts-open');
-            });
-        }
+        /*
+                });
+        /*
+                //Activate direct chat widget
+                if (o.directChat.enable) {
+                    $(document).on('click', o.directChat.contactToggleSelector, function () {
+                        var box = $(this).parents('.direct-chat').first();
+                        box.toggleClass('direct-chat-contacts-open');
+                    });
+                }
 
-        // INITIALIZE BUTTON TOGGLE
-        $('.btn-group[data-toggle="btn-toggle"]').each(function () {
-            var group = $(this);
-            $(this).find(".btn").on('click', function (e) {
-                group.find(".btn.active").removeClass("active");
-                $(this).addClass("active");
-                e.preventDefault();
-            });
+                // INITIALIZE BUTTON TOGGLE
+                $('.btn-group[data-toggle="btn-toggle"]').each(function () {
+                    var group = $(this);
+                    $(this).find(".btn").on('click', function (e) {
+                        group.find(".btn.active").removeClass("active");
+                        $(this).addClass("active");
+                        e.preventDefault();
+                    });
 
-        });
-*/
+                });
+        */
     }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
+    }
+
+    navigateToZone(location) {
+        const locationDetails = {
+            device_id: location.device_id,
+            location_id: location.location_id,
+            location_name: location.location_name
+        };
+
+        debugger;
+        if( sessionStorage ) {
+            sessionStorage.setItem('locationDetails', JSON.stringify( locationDetails ));
+            return false;
+        }
+
     }
 }
