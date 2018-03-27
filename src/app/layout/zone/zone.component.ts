@@ -41,6 +41,7 @@ export class ZoneComponent implements OnInit {
 	sixthDate;
   testValue;
   selectedObject;
+  locationName;
 
   constructor(public router: Router, public config: NgbCarouselConfig, private _http: HttpClient ) {
     // customize default values of carousels used by this component tree
@@ -169,29 +170,26 @@ export class ZoneComponent implements OnInit {
     };
     const ZoneHttpUrl = "https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/image-history";
     const userCredentials = JSON.parse(sessionStorage.getItem('userDetails'));
+    const locationDetails = JSON.parse(sessionStorage.getItem('locationDetails'));
     const fromDate = year+'-'+month+'-'+day;
     const toDate = this.maxDate.getFullYear()+'-'+ month +'-'+this.maxDate.getDate();
     const ZonePayLoad = JSON.stringify(
         {
            "customer_id": userCredentials['customer_id'],
-           "device_id": "B827EB4E52F9",
+           "device_id": locationDetails['device_id'],
            "from": fromDate,
            "location_adminstatus": "Up",
            "location_humidity": 53.31,
-           "location_id": "7777964567972",
-           "location_last_pic_time": 1521915146,
-           "location_last_pir_time": 0,
-           "location_lastupdate": 1521915193804,
-           "location_location": "44.781207,-93.171535",
-           "location_name": "West Backyard",
-           "location_operstatus": "Connected",
-           "location_temperature": 36.98,
+           "location_id": locationDetails['location_id'],
+           "location_name": locationDetails['location_name'],
            "site_id": userCredentials['site_id'],
            "to": toDate,
            "user_login": userCredentials['user_login'],
            "user_token": userCredentials['user_token']
         }
     );
+
+    this.locationName = locationDetails['location_name'];
 
     return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
       results => {
@@ -233,7 +231,7 @@ export class ZoneComponent implements OnInit {
          return result;
        },
        error => {
-         console.error("Error saving food!");
+         console.error("Error: Server failed! ");
          //return Observable.throw(error);
        }
     );

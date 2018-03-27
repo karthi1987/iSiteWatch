@@ -4,7 +4,6 @@ import { MenuConfig } from '../../../config/menu.config';
 import * as $ from 'jquery';
 import {DataService} from "../../shared/services/data.service";
 
-
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -23,7 +22,6 @@ export class DashboardComponent implements OnInit {
     userData;
 
     getProjectSites() {
-        console.log(this.userData);
         this.dataService.getSites(this.userData)
             .subscribe(
                 (results:any) => {
@@ -147,10 +145,8 @@ export class DashboardComponent implements OnInit {
     };
 
     ngOnInit() {
-        console.log('Calling ngOnInit for dashboard');
 
         const userDetails = JSON.parse(sessionStorage.getItem('userDetails'));
-
         this.projectName = userDetails.customer.customer_busname;
         this.userData = {
             userLogin: userDetails.user_login,
@@ -225,7 +221,6 @@ export class DashboardComponent implements OnInit {
             location_name: location.location_name
         };
 
-        debugger;
         if( sessionStorage ) {
             sessionStorage.setItem('locationDetails', JSON.stringify( locationDetails ));
             return false;
