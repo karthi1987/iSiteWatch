@@ -11,6 +11,7 @@ import {
 } from './components';
 import { StatModule } from '../../shared';
 import {FormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import {FormsModule} from '@angular/forms';
         NgbAlertModule.forRoot(),
         DashboardRoutingModule,
         StatModule,
-        FormsModule
+        FormsModule,
+        HttpClientModule
     ],
     declarations: [
         DashboardComponent,

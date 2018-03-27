@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { MenuConfig } from '../../../config/menu.config';
 import * as $ from 'jquery';
+import {DataService} from "../../shared/services/data.service";
 
 
 @Component({
@@ -26,13 +27,28 @@ export class DashboardComponent implements OnInit {
     ];
 
     sites = [
-        {id: 1, name: 'Site A'},
-        {id: 2, name: 'Site B'},
-        {id: 3, name: 'Site C'},
-        {id: 4, name: 'Site D'}
+        {site_id: 1, site_name: 'Site A', site_city: 'City A', site_stateprov: 'State A'},
+        {site_id: 2, site_name: 'Site B', site_city: 'City B', site_stateprov: 'State B'},
+        {site_id: 3, site_name: 'Site C', site_city: 'City C', site_stateprov: 'State C'},
+        {site_id: 4, site_name: 'Site D', site_city: 'City D', site_stateprov: 'State D'}
     ];
 
-    constructor() {
+    userData;
+
+    getProjectSites() {
+        console.log(this.userData);
+        this.dataService.getSites(this.userData)
+            .subscribe((data:any) => {
+                console.log(data);
+                this.sites = data;
+            });
+    }
+
+    setProjectSite() {
+
+    }
+
+    constructor(private dataService: DataService) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
@@ -138,6 +154,19 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         console.log('Calling ngOnInit for dashboard');
+
+        this.userData = {
+            userLogin: localStorage.getItem('userName'),
+            userToken: localStorage.getItem('userToken'),
+            customerID: localStorage.getItem('customerId'),
+            siteId: localStorage.getItem('siteId')
+        };
+
+        /*this.dataService.getSites(this.userData)
+            .subscribe((data:any) => {
+                console.log(data);
+                this.sites = data;
+            });*/
 
         //
         // userDetails.isDefaultViewSet()

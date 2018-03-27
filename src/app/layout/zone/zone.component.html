@@ -15,13 +15,13 @@
 	    <owl-date-time [pickerType]="'calendar'" [pickerMode]="'popup'" #dt1 ></owl-date-time>
 	</div>
 	<div class="page-hero-and-date-selector">
-		<div class="page-hero-image"> 
+		<div class="page-hero-image">
 			<!-- <img src="assets/images/image_1.jpeg" /> -->
 			<ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="gallery-layout-outer"></ngx-gallery>
 		 </div>
 		<div class="page-date-selector-for-a-week">
 			<div class="date-first-and-second-row" *ngFor="let thumbDates of thumbnailDates">
-				<div class="date-frist-day" *ngIf="thumbDates.label != selectedDate">
+				<div class="date-first-day" *ngIf="thumbDates.label != selectedDate">
 					<div class="date-wrapper">
 						{{thumbDates.label | date:'MM/dd/yyyy'}}
 					</div>
@@ -34,6 +34,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="page-footer-image-carousel"> 
+	<div class="page-footer-image-carousel">
 	 </div>
 </div>

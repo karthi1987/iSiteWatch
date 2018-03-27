@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 
         const params = {
             AttributesToGet: [
-                'user_pass', 'user_name', 'site_id', 'customer_id'
+                'user_pass', 'user_name', 'site_id', 'customer_id', 'user_token'
             ],
             TableName : 'user',
             Key : {
@@ -47,6 +47,18 @@ export class LoginComponent implements OnInit {
             }
         };
 
+        /*
+        https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/location
+
+           var data = {
+               "user_login": dc.user.user_login,
+               "user_token": dc.user.user_token,
+               "site_id": site.site_id,
+               "customer_id": site.customer_id
+           };
+         */
+
+// d6c7d20a-5e1b-4310-96c2-7da0c07a1737
         const passValue = this.userpass;
         const userValue = this.username;
         dynamodb.getItem(params, function(err, data) {
@@ -54,18 +66,20 @@ export class LoginComponent implements OnInit {
             if (err) {
                 console.log(err); // an error occurred
             } else {
-
+                console.log(data);
                 if ( data &&  data.Item && data.Item.user_pass && data.Item.user_pass.S ) {
                     const userName = data.Item.user_name.S;
                     const siteId = data.Item.site_id.S;
                     const customerId = data.Item.customer_id.S;
                     const password = data.Item.user_pass.S;
+                    const userToken = data.Item.user_token.S;
 
                     if ( passValue === data.Item.user_pass.S ) {
                         localStorage.setItem('isLoggedin', 'true');
                         localStorage.setItem('siteId', siteId);
                         localStorage.setItem('customerId', customerId);
                         localStorage.setItem('userName', userName);
+                        localStorage.setItem('userToken', userToken);
                     } else {
                         console.log('Bad user name or password');
                     }

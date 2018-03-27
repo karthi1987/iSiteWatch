@@ -25,6 +25,7 @@ export class ZoneComponent implements OnInit {
 	galleryOptions: NgxGalleryOptions[];
 	galleryImages: NgxGalleryImage[];
 	thumbnailDates: Array<Object> = [];
+	thumbnailSlots = [true, true, true, true, true, true, false];
 	setDate;
 	minDate;
 	maxDate;
@@ -76,7 +77,7 @@ export class ZoneComponent implements OnInit {
 
 		this.setDate = month+'/'+day+'/'+year;
 
-		new Date().getFullYear()
+		new Date().getFullYear();
 		new Date().getMonth();
 		new Date().getDate();
 
@@ -105,25 +106,30 @@ export class ZoneComponent implements OnInit {
 
 
 		/*this.thumbnailDates.push(
-      { 'key': 'firstSlot', 'label': this.minDate, 'dateFormat':  Moment(this.minDate).format( "MM/DD/YYYY" ) }, 
-      { 'key': 'secondSlot', 'label': this.secondDate, 'dateFormat': Moment(this.secondDate).format( "MM/DD/YYYY" ) }, 
-      { 'key': 'thirdSlot', 'label': this.thirdDate, 'dateFormat': Moment(this.thirdDate).format( "MM/DD/YYYY" ) }, 
+      { 'key': 'firstSlot', 'label': this.minDate, 'dateFormat':  Moment(this.minDate).format( "MM/DD/YYYY" ) },
+      { 'key': 'secondSlot', 'label': this.secondDate, 'dateFormat': Moment(this.secondDate).format( "MM/DD/YYYY" ) },
+      { 'key': 'thirdSlot', 'label': this.thirdDate, 'dateFormat': Moment(this.thirdDate).format( "MM/DD/YYYY" ) },
       { 'key': 'fourthSlot', 'label': this.fourthDate, 'dateFormat': Moment(this.fourthDate).format( "MM/DD/YYYY" ) },
-      { 'key': 'fifthSlot', 'label': this.fifthDate, 'dateFormat': Moment(this.fifthDate).format( "MM/DD/YYYY" ) }, 
+      { 'key': 'fifthSlot', 'label': this.fifthDate, 'dateFormat': Moment(this.fifthDate).format( "MM/DD/YYYY" ) },
       { 'key': 'sixthSlot', 'label': this.sixthDate, 'dateFormat': Moment(this.sixthDate).format( "MM/DD/YYYY" ) },
       { 'key': 'seventhSlot', 'label': this.maxDate, 'dateFormat': Moment(this.maxDate).format( "MM/DD/YYYY" ) }
     );*/
 
 
     this.thumbnailDates.push(
-      { 'key': 'firstSlot', 'label': this.minDate  }, 
-      { 'key': 'secondSlot', 'label': this.secondDate }, 
-      { 'key': 'thirdSlot', 'label': this.thirdDate }, 
-      { 'key': 'fourthSlot', 'label': this.fourthDate },
-      { 'key': 'fifthSlot', 'label': this.fifthDate }, 
-      { 'key': 'sixthSlot', 'label': this.sixthDate },
-      { 'key': 'seventhSlot', 'label': this.maxDate }
+      { 'key': 'firstSlot', 'label': this.minDate, 'toDisplay': this.thumbnailSlots[0] },
+      { 'key': 'secondSlot', 'label': this.secondDate, 'toDisplay': this.thumbnailSlots[1] },
+      { 'key': 'thirdSlot', 'label': this.thirdDate, 'toDisplay': this.thumbnailSlots[2] },
+      { 'key': 'fourthSlot', 'label': this.fourthDate, 'toDisplay': this.thumbnailSlots[3] },
+      { 'key': 'fifthSlot', 'label': this.fifthDate, 'toDisplay': this.thumbnailSlots[4] },
+      { 'key': 'sixthSlot', 'label': this.sixthDate, 'toDisplay': this.thumbnailSlots[5] },
+      { 'key': 'seventhSlot', 'label': this.maxDate, 'toDisplay': this.thumbnailSlots[6] }
     );
+
+    function prepareDateLayout(slot:number) {
+        this.thumbnailSlots = [true, true, true, true, true, true, true];
+        this.thumbnailSlots[slot - 1] = false;
+    }
 
 
 		//To do: Find 6 days between

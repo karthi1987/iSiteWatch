@@ -9,3 +9,28 @@
     font-size: 18px;
     //display: inline-block;
 }
+
+.project-container {
+    margin-bottom: 15px;
+}
+
+.site-container {
+
+}
+
+.dashboard-select-box {
+    margin-bottom: 15px;
+    display: flex;
+    width: 100%;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: flex-start;
+
+    select {
+        width: 250px;
+
+        @media (min-width: 300px) and (max-width: 600px)  {
+            width: 100%;
+        }
+    }
+}
