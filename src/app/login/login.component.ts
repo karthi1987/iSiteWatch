@@ -4,6 +4,8 @@ import { routerTransition } from '../router.animations';
 import { AppDefaults } from '../../defaultvalue';
 import { Output } from '@angular/core/src/metadata/directives';
 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import * as AWS from 'aws-sdk';
 AWS.config.update({
     region: AppDefaults.REGION,
@@ -19,7 +21,7 @@ const dynamodb = new AWS.DynamoDB({ region: 'us-east-1' });
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
-    constructor(public router: Router) {}
+    constructor(public router: Router, private _http: HttpClient) {}
 
     username: string;
     userpass: string;
@@ -35,7 +37,7 @@ export class LoginComponent implements OnInit {
             debugger;
         });*/
 
-        const params = {
+        /*const params = {
             AttributesToGet: [
                 'user_pass', 'user_name', 'site_id', 'customer_id'
             ],
@@ -74,5 +76,45 @@ export class LoginComponent implements OnInit {
                 }
             }
         });
+        */
+
+
+    const passValue = this.userpass;
+    const userValue = this.username;
+    const ZoneHttpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    const ZoneHttpUrl = "https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/authenticate";
+    const ZonePayLoad = JSON.stringify(
+        {
+        "user_login": userValue,
+        "user_pass": passValue
+        }
+    );
+
+   return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
+      results => {
+        const loginResults = results;
+         if( loginResults['errorMessage'] &&  loginResults['errorMessage'] == "TOKEN_EXPIRED" ) {
+           return false;
+         }
+
+         if( !loginResults['data'] ) {
+             throw Error('Login failed');
+             //Window.location('/login');
+         }
+
+         if( sessionStorage ) {
+              sessionStorage.setItem('userDetails', JSON.stringify( loginResults['data'] ));
+         }
+         return loginResults;
+       },
+       error => {
+         console.error("Error saving food!");
+         //return Observable.throw(error);
+       }
+    );
+
+
     }
 }
