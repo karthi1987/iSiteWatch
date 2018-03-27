@@ -69,12 +69,17 @@
 				.date-row-image {
 					margin: 5% 0 0 0;
 					height: 135px;
+					.no-image {
+						width: 100px;
+						height: 100px;
+					}
 				}
 				.date-frist-day, .date-second-day {
 					/*display: flex;
 					flex-flow: column nowrap;*/
 					display: block;
 					height: 175px;
+					font-weight: 700;
 					.date-wrapper {
 						min-height: 20px;
 					}
@@ -83,7 +88,10 @@
 		}
 	}
 	.page-hero-image {
-		width: 100%;
+		width: 900px;
+		@media all and (min-width: 300px) and (max-width: 700px) {
+			width: 100%;
+		}
 	}
 	.page-footer-image-carousel {
 		display: flex;
@@ -93,5 +101,14 @@
 	.gallery-layout-outer {
 		display: flex;
 		width: 800px;
+	}
+}
+
+.ngx-gallery-thumbnails-wrapper {
+	.ngx-gallery-thumbnails {
+		.ngx-gallery-thumbnail.ngx-gallery-active {
+			display: block;
+			border: 2px solid red !important;
+		}
 	}
 }
