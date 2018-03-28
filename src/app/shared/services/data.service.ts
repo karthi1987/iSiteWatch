@@ -34,4 +34,14 @@ export class DataService {
         );
     }
 
+    getEvents(data, locationId) {
+        return this.http.post(environment.getSiteEventsUrl + locationId,
+            {
+                user_login: data.userLogin,
+                user_token: data.userToken,
+                site_id: data.siteId
+            }
+        );
+    }
+
 }
