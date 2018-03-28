@@ -42,6 +42,7 @@ export class ZoneComponent implements OnInit {
   testValue;
   selectedObject;
   locationName;
+  loader;
 
   constructor(public router: Router, public config: NgbCarouselConfig, private _http: HttpClient ) {
     // customize default values of carousels used by this component tree
@@ -53,6 +54,10 @@ export class ZoneComponent implements OnInit {
 
   getUserCredentials() {
     //sessionStorage('getItem', userDetails);
+  }
+
+  isObjectEmpty( card ){
+     return Object.keys(card).length === 0;
   }
 
   setDateByUserSelect( date ) {
@@ -91,8 +96,6 @@ export class ZoneComponent implements OnInit {
   }
 
   ngOnInit() {
-  	console.log('Calling ngOnInit for Zone');
-
 		var days = 6; // Days you want to subtract
 		var date = new Date();
 		var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
@@ -133,6 +136,7 @@ export class ZoneComponent implements OnInit {
       { 'key': 'seventhSlot', 'label': this.maxDate, 'dateFormat': moment.utc(this.maxDate).format(), 'show': true, 'galleryImages': {} }
     );
 
+    this.loader = false;
     this.selectedObject = this.thumbnailDates[5];
     this.selectedDate = this.selectedObject.label;
 
@@ -191,6 +195,7 @@ export class ZoneComponent implements OnInit {
 
     this.locationName = locationDetails['location_name'];
 
+    /* Service call to get Site details */
     return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
       results => {
         const zoneResults = results;
@@ -206,19 +211,19 @@ export class ZoneComponent implements OnInit {
           .value();
          this.galleryResults = result;
 
-         const tDates = _.map(this.thumbnailDates, function(item, index ){
+         const tDates = _.map(this.thumbnailDates, function(item, index ) {
           var localTime = moment(item['dateFormat']).format('YYYY-MM-DD'); // store localTime
-          var proposedDate = localTime + "T00:00:00.000Z";
+          var proposedDate = localTime + "T00:00:00.000Z"; // convert the localTime to UTC format
            const tD = moment(item['dateFormat']).format('D');
            const imageGallery = _.filter(result, function(o) { 
              if( proposedDate == o.yyyy_mm_dd ) {
-                 let galleyCustomizedImages = [];
+                let galleyCustomizedImages = [];
                 galleyCustomizedImages = _.map(o.image, function(i, ix){
                    const cImages = {};
                    cImages['small'] = i['image'];
                    cImages['medium'] = i['image'];
                    cImages['big'] = i['image'];
-                   cImages['description'] = i['hhmm'];
+                   cImages['description'] = 'Time: '+i['hhmm'];
                    galleyCustomizedImages.push( cImages );
                    return cImages;
                  })
@@ -227,6 +232,7 @@ export class ZoneComponent implements OnInit {
            });
            return item;
          });
+         this.loader = true;
          this.thumbnailDates = tDates;
          return result;
        },

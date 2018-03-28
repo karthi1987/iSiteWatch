@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="horizontal-line"></div>
-	<div><h3>Simply change the the date for additional pitcures</h3></div>
+	<div><h3>Simply change the date for additional pictures</h3></div>
 	<div class="page-header-date-selector">
 	    <input (ngModelChange)="setDateByUserSelect($event)" #datePicker [owlDateTime]="dt1"
 	     [(ngModel)]="selectedDate" placeholder={{minDate}} [min]="minDate" [max]="maxDate">
@@ -18,14 +18,19 @@
 	    <owl-date-time [pickerType]="'calendar'" [pickerMode]="'popup'" #dt1 ></owl-date-time>
 	</div>
 	<div class="horizontal-line"></div>
-	<div class="page-hero-and-date-selector">
-		<div class="page-hero-image">
-			<input type="hidden" [(ngModel)]="selectedObject" name="selectedObject">
-	        <div *ngIf="selectedObject.show != true">
-	        	<div *ngIf="selectedObject.galleryImages?.length > 0">
-					<ngx-gallery [options]="galleryOptions" [images]="selectedObject.galleryImages" class="gallery-layout-outer"></ngx-gallery>
-	        	</div>
-			</div>
+	<div class="zone-loader" *ngIf="loader == false">
+		<div class="spinner"> 
+			Images are loading, Please wait 
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+		</div>
+	</div>
+	<div class="page-hero-and-date-selector" *ngIf="loader == true">
+		<input type="hidden" [(ngModel)]="selectedObject" name="selectedObject">
+		<div class="page-hero-image" *ngIf="selectedObject.show != true">
+        	<div *ngIf="selectedObject.galleryImages?.length > 0">
+				<ngx-gallery [options]="galleryOptions" [images]="selectedObject.galleryImages" class="gallery-layout-outer"></ngx-gallery>
+        	</div>
 		 </div>
 		<div class="page-date-selector-for-a-week">
 			<div class="date-first-and-second-row" *ngFor="let thumbDates of thumbnailDates">
@@ -40,15 +45,21 @@
 							</a>
 						</div>
 					</ng-template>
-					<ng-template [ngIf]="thumbDates.galleryImages?.length == 0">
+					<ng-template [ngIf]="isObjectEmpty(thumbDates.galleryImages)">
 						<div class="no-image">
-							<img src="assets/images/slider1.jpg" width="200">
+							<img src="assets/images/no-image-available.png">
 						</div>
 					</ng-template>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="page-footer-image-carousel"> 
-	 </div>
+	<div class="page-footer-image-carousel"></div>
 </div>
+
+<style>
+.ngx-gallery-thumbnail.ngx-gallery-active {
+	display: block;
+	border: 2px solid red !important;
+}
+</style>

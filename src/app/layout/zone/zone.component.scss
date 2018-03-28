@@ -1,3 +1,34 @@
+
+@mixin breakpoint($point) {
+    @if $point == desktop {
+        @media (max-width: 1600px) { @content ; }
+    }
+    @else if $point == laptop {
+        @media (max-width: 1280px) { @content ; }
+    }
+    @else if $point == lb {
+        @media (max-width: 1200px) { @content ; }
+    }
+    @else if $point == largetablet{
+        @media (max-width: 991px) { @content ; }
+    }
+    @else if $point == tablet {
+        @media (max-width: 767px) { @content ; }
+    }
+    @else if $point == iphone6plus {
+        @media (max-width: 667px ) { @content ; }
+    }
+    @else if $point == iphone5s {
+        @media (max-width: 568px ) { @content ; }
+    }
+    @else if $point == phablet {
+        @media (max-width: 480px)  { @content ; }
+    }
+    @else if $point == mobileonly {
+        @media (max-width: 385px)  { @content ; }
+    }
+}
+
 .page-zone {
 	display: flex;
 	flex-flow: column wrap;
@@ -19,16 +50,84 @@
 		justify-content: center;
 		align-items: center;
 		width: 100%;
+
+		@include breakpoint( tablet ) {
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			align-items: flex-end;
+		}
+		@include breakpoint( iphone6plus ) {
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			align-items: flex-end;
+
+		}
+		@include breakpoint( iphone5s ) {
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			align-items: flex-end;
+		}
+		@include breakpoint( phablet ) {
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			align-items: flex-end;
+		}
+		@include breakpoint( mobileonly ) {
+			flex-flow: column wrap;
+			justify-content: flex-start;
+			align-items: flex-end;
+		}
+
 		.title {
 			display: flex;
 			width: 75%;
 			text-transform: uppercase;
+			@include breakpoint( tablet ) {
+				width: 100%;
+				justify-content: flex-start;
+			}
+			@include breakpoint( iphone6plus ) {
+				width: 100%;
+				justify-content: flex-start;
+			}
+			@include breakpoint( iphone5s ) {
+				width: 100%;
+				justify-content: flex-start;
+			}
+			@include breakpoint( phablet ) {
+				width: 100%;
+				justify-content: flex-start;
+			}
+			@include breakpoint( mobileonly ) {
+				width: 100%;
+				justify-content: flex-start;
+			}
 		}
 		.user-actions {
 			display: flex;
-			width: 60%;
+			width: 25%;
 			justify-content: flex-start;
 			align-items: center;
+			@include breakpoint( tablet ) {
+				width: 100%;
+				justify-content: flex-end;
+			}
+			@include breakpoint( iphone6plus ) {
+				width: 100%;
+				justify-content: flex-end;
+			}
+			@include breakpoint( iphone5s ) {
+				width: 100%;
+				justify-content: flex-end;
+			}
+			@include breakpoint( phablet ) {
+				width: 100%;
+				justify-content: flex-end;
+			}
+			@include breakpoint( mobileonly ) {
+				width: 100%;
+				justify-content: flex-end;
+			}
 		    .fa {
 	    		margin-right: 2%;
 			}
@@ -50,6 +149,23 @@
 			}
 		}
 	}
+	.zone-loader {
+		display: flex;
+		width: 100%;
+		min-height: 450px;
+		justify-content: center;
+		align-items: center;
+		flex-flow: row nowrap;
+		color: #CC0000;
+		font-weight: 700;
+		font-size: 1.2em;
+		.spinner {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 	.page-hero-and-date-selector {
 		display: flex;
 		width: 100%;
@@ -59,42 +175,70 @@
 		flex-flow: row nowrap;
 		margin: 2% 0 0 0;
 		.page-date-selector-for-a-week {
-			display: flex;
-			width: 100%;
-			flex-flow: row wrap;
-			padding-left: 2%;
-		}
-		.page-date-selector-for-a-week {
 			/*display: flex;
 			flex-flow: column wrap;
 			justify-content: center;
 			align-items: center;*/
-			display: block;
-			column-count: 2;
-			column-width: 150px;
+
+		    display: flex;
+		    width: 100%;
+			flex-flow: row wrap;
+		    align-items: flex-start;
+		    justify-content: flex-start;
 			height: 565px;
 			overflow: hidden;
-			.date-first-and-second-row {
-				/*display: flex;*/
+			padding-left: 2%;
+
+			@media all and (min-width: 300px) and (max-width:750px) {
 				width: 100%;
+				height: auto;
+				flex-flow: column nowrap;
+				overflow: visible;
+			}
+
+			@include breakpoint( tablet ) {
+				display: none;
+			}
+			@include breakpoint( iphone6plus ) {
+				display: none;
+			}
+			@include breakpoint( iphone5s ) {
+				display: none;
+			}
+			@include breakpoint( phablet ) {
+				display: none;
+			}
+			@include breakpoint( mobileonly ) {
+				display: none;
+			}
+
+			.date-first-and-second-row {
+				display: flex;
+				width: auto;
 				flex-flow: row wrap;
 				justify-content: space-between;
 				margin: 0 0 5% 0;
-				/*height: 175px;*/
+				@media all and (min-width: 300px) and (max-width:700px) {
+					width: 100%;
+				}
 				.date-row-image {
 					margin: 5% 0 0 0;
 					height: 135px;
 					.no-image {
-						width: 100px;
-						height: 100px;
+						svg {
+							width: 200px;
+							height: 125px;
+						}
 					}
 				}
 				.date-frist-day, .date-second-day {
 					/*display: flex;
 					flex-flow: column nowrap;*/
-					display: block;
-					height: 175px;
-					font-weight: 700;
+				    display: block;
+				    height: 175px;
+				    font-weight: 700;
+				    margin-right: 2%;
+				    width: 225px;
 					.date-wrapper {
 						min-height: 20px;
 					}
