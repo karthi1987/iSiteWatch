@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
     locations: Array<Object> = [];
     userData;
     events;
+    loader;
 
     getProjectSites() {
         this.dataService.getSites(this.userData)
@@ -40,23 +41,34 @@ export class DashboardComponent implements OnInit {
             .subscribe(
                 (results: any) => {
                     this.locations = results.data;
-                    this.events = this.getLocationEvents();
+                    this.events = null;
+                    if( this.getLocationEvents() != null ) {
+                        this.events = this.getLocationEvents();
+                    }
+                    if( this.events ) {
+                        this.loader = true;
+                        return this;
+                    }
                 },
                 error => console.error("Fetching details of site locations failed")
             );
     }
 
     getLocationEvents() {
+        const dataServie = this.dataService;
+        const userData = this.userData;
+        const eventsData = [];
         if (this.locations.length > 0) {
-            _.forEach(this.locations, function (location) {
-                this.dataService.getEvents(this.userData, location['location_id'])
+            _.forEach(this.locations, function (location, index) {
+                dataServie.getEvents(userData, location['location_id'])
                     .subscribe(
                         (results: any) => {
-                            return results.data;
+                            eventsData.push({'location_id': location['location_id'], 'eventsInfo': results.data});
                         },
                         error => console.error("Fetching details of location events failed")
                     );
-            })
+            });
+           return eventsData;
         }
     }
 
@@ -177,6 +189,7 @@ export class DashboardComponent implements OnInit {
             // siteId: userDetails.sites[0].site_id
         };
 
+        this.loader = false;
         this.getProjectSites();
 
         // Easy access to options

@@ -1,8 +1,7 @@
 <div [@routerTransition]>
-
     <div class="dashboard-select-box">
         <h2 class="text-muted">{{projectName}}</h2>
-
+        <div class="horizontal-line"></div>
         <div class="site-container">
             <label for="site" class="label-container">Site: </label>
             <select id="site" class="select-container" [(ngModel)]="selectedSiteId" (change)="getSiteLocations()">
@@ -10,15 +9,18 @@
             </select>
         </div>
     </div>
-
-    <hr>
-    <h2 class="text-muted"><!--{{selectedSite.site_name}}--></h2>
-    <hr>
     <div class="page-header">
         <h5> Simply Click On The Picture For Additional Zone Level Details</h5>
         <hr>
     </div>
-    <div class="row">
+    <div class="zone-loader" *ngIf="loader == false">
+        <div class="spinner"> 
+            Dashboard is loading, Please wait 
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+        </div>
+    </div>
+    <div class="row" *ngIf="this.loader == true">
         <div class="col-md-4" *ngFor="let location of locations">
             <!-- Widget: user widget style 1 -->
             <div class="box box-widget widget-user">
@@ -33,7 +35,7 @@
                             <h3 class="box-title">{{location.location_name}}</h3>
 
                             <div class="box-tools pull-right">
-                                <span data-toggle="tooltip" title="3 New Messages" class="badge bg-light-blue">3</span>
+                                <span data-toggle="tooltip" title="3 Alerts" class="badge bg-red">{{events.length}}</span>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
                                     <i class="fa fa-plus"></i>
                                 </button>
@@ -43,7 +45,7 @@
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="list-group no-padding">
-                                <li class="list-group-item clearfix d-block">
+                               <!-- <li class="list-group-item clearfix d-block">
                                     <i class="fa fa-id-card-o fa-fw"></i> Person detection
                                     <span class="float-right text-muted small">
                                         <em>1 Steel Sub</em>
@@ -54,30 +56,38 @@
                                     <span class="float-right text-muted small">
                                         <em>1 Visible Harness</em>
                                     </span>
-                                </li>
+                                </li> -->
                                 <li class="list-group-item clearfix d-block">
                                     <i class="fa fa-eye fa-fw"></i> Motion detection
                                     <span class="float-right text-muted small">
-                                        <em>December 7, 2017
-                                            <br>1:37:53 PM GMT-06:00</em>
+                                       <!-- <em>December 7, 2017
+                                        <br>1:37:53 PM GMT-06:00</em>
+                                       -->
+                                       {{location.location_lastupdate | date: 'MM/dd/yyyy hh:mm:ss a'}}
                                     </span>
                                 </li>
                                 <li class="list-group-item clearfix d-block">
                                     <i class="fa fa-thermometer-full fa-fw"></i> Current Temperature
                                     <span class="float-right text-muted small">
-                                        <em>58°F</em>
+                                      <em>{{location.location_temperature}}<sup>0</sup>F</em>
                                     </span>
                                 </li>
                                 <li class="list-group-item clearfix d-block">
                                     <i class="fa fa-tint fa-fw"></i> Current Humidity
                                     <span class="float-right text-muted small">
-                                        <em>32%</em>
+                                        <em>{{location.location_humidity}}%</em>
                                     </span>
                                 </li>
-                                <li class="list-group-item clearfix d-block">
+                                <!-- <li class="list-group-item clearfix d-block">
                                     <i class="fa fa-industry fa-fw"></i> Current CO2 Level
                                     <span class="float-right text-muted small">
                                         <em>2700 PPM</em>
+                                    </span>
+                                </li> -->
+                                <li class="list-group-item clearfix d-block">
+                                    <i class="fa fa-location-arrow fa-fw"></i>Geo Location
+                                    <span class="float-right text-muted small">
+                                        <em>{{location.location_location}}</em>
                                     </span>
                                 </li>
                             </div>
