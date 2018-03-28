@@ -42,6 +42,7 @@ export class ZoneComponent implements OnInit {
   testValue;
   selectedObject;
   locationName;
+  loader;
 
   constructor(public router: Router, public config: NgbCarouselConfig, private _http: HttpClient ) {
     // customize default values of carousels used by this component tree
@@ -135,6 +136,7 @@ export class ZoneComponent implements OnInit {
       { 'key': 'seventhSlot', 'label': this.maxDate, 'dateFormat': moment.utc(this.maxDate).format(), 'show': true, 'galleryImages': {} }
     );
 
+    this.loader = false;
     this.selectedObject = this.thumbnailDates[5];
     this.selectedDate = this.selectedObject.label;
 
@@ -230,6 +232,7 @@ export class ZoneComponent implements OnInit {
            });
            return item;
          });
+         this.loader = true;
          this.thumbnailDates = tDates;
          return result;
        },

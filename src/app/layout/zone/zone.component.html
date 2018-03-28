@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="horizontal-line"></div>
-	<div><h3>Simply change the the date for additional pitcures</h3></div>
+	<div><h3>Simply change the date for additional pictures</h3></div>
 	<div class="page-header-date-selector">
 	    <input (ngModelChange)="setDateByUserSelect($event)" #datePicker [owlDateTime]="dt1"
 	     [(ngModel)]="selectedDate" placeholder={{minDate}} [min]="minDate" [max]="maxDate">
@@ -18,7 +18,14 @@
 	    <owl-date-time [pickerType]="'calendar'" [pickerMode]="'popup'" #dt1 ></owl-date-time>
 	</div>
 	<div class="horizontal-line"></div>
-	<div class="page-hero-and-date-selector">
+	<div class="zone-loader" *ngIf="loader == false">
+		<div class="spinner"> 
+			Images are loading, Please wait 
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+		</div>
+	</div>
+	<div class="page-hero-and-date-selector" *ngIf="loader == true">
 		<input type="hidden" [(ngModel)]="selectedObject" name="selectedObject">
 		<div class="page-hero-image" *ngIf="selectedObject.show != true">
         	<div *ngIf="selectedObject.galleryImages?.length > 0">
