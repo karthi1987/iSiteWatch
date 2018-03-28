@@ -3,7 +3,7 @@
     <div class="dashboard-select-box">
         <h2 class="text-muted">{{projectName}}</h2>
 
-        <div class="site-container" *ngIf="sites?.length > 0">
+        <div class="site-container">
             <label for="site" class="label-container">Site: </label>
             <select id="site" class="select-container" [(ngModel)]="selectedSiteId" (change)="getSiteLocations()">
                 <option *ngFor="let s of sites" [ngValue]="s.site_id">{{s.site_name}}</option>

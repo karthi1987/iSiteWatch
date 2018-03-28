@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
-import { MenuConfig } from '../../../config/menu.config';
+import {Component, OnInit} from '@angular/core';
+import {routerTransition} from '../../router.animations';
+import {MenuConfig} from '../../../config/menu.config';
 import * as $ from 'jquery';
+import * as _ from "lodash";
 import {DataService} from "../../shared/services/data.service";
 
 @Component({
@@ -18,14 +19,17 @@ export class DashboardComponent implements OnInit {
     selectedSiteId;
     projectName;
     sites = [];
-    locations;
+    locations: Array<Object> = [];
     userData;
+    events;
 
     getProjectSites() {
         this.dataService.getSites(this.userData)
             .subscribe(
-                (results:any) => {
-                this.sites = results.data;
+                (results: any) => {
+                    this.sites = results.data;
+                    this.selectedSiteId = _.head(this.sites).site_id;
+                    this.getSiteLocations()
                 },
                 error => console.error("Fetching details of project sites failed"));
     }
@@ -34,10 +38,26 @@ export class DashboardComponent implements OnInit {
         this.userData.siteId = this.selectedSiteId;
         this.dataService.getLocations(this.userData)
             .subscribe(
-                (results:any) => {
-                this.locations = results.data;
+                (results: any) => {
+                    this.locations = results.data;
+                    this.events = this.getLocationEvents();
                 },
-                error => console.error("Fetching details of site locations failed"));
+                error => console.error("Fetching details of site locations failed")
+            );
+    }
+
+    getLocationEvents() {
+        if (this.locations.length > 0) {
+            _.forEach(this.locations, function (location) {
+                this.dataService.getEvents(this.userData, location['location_id'])
+                    .subscribe(
+                        (results: any) => {
+                            return results.data;
+                        },
+                        error => console.error("Fetching details of location events failed")
+                    );
+            })
+        }
     }
 
     constructor(private dataService: DataService) {
@@ -153,25 +173,11 @@ export class DashboardComponent implements OnInit {
             userToken: userDetails.user_token,
             customerID: userDetails.customer_id,
             siteId: userDetails.site_id
+            // TODO - Handle multiple sites -
+            // siteId: userDetails.sites[0].site_id
         };
 
         this.getProjectSites();
-
-        /*this.dataService.getSites(this.userData)
-            .subscribe((data:any) => {
-                console.log(data);
-                this.sites = data;
-            });*/
-
-        //
-        // userDetails.isDefaultViewSet()
-
-        // defaults = dataService.getDefaultViewDetails(username);
-
-        // projects = dataService.getProjects(username);
-        // sites = dataService.getSites(username, projects[0]);
-
-
 
         // Easy access to options
         var o = this.options;
@@ -221,8 +227,8 @@ export class DashboardComponent implements OnInit {
             location_name: location.location_name
         };
 
-        if( sessionStorage ) {
-            sessionStorage.setItem('locationDetails', JSON.stringify( locationDetails ));
+        if (sessionStorage) {
+            sessionStorage.setItem('locationDetails', JSON.stringify(locationDetails));
             return false;
         }
 
