@@ -40,3 +40,29 @@
     background-size: 100%;
     background-size: cover;
 }
+
+.horizontal-line {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.zone-loader {
+    display: flex;
+    width: 100%;
+    min-height: 450px;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row nowrap;
+    color: #CC0000;
+    font-weight: 700;
+    font-size: 1.2em;
+    .spinner {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+}
