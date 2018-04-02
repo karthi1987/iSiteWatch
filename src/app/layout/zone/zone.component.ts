@@ -42,6 +42,8 @@ export class ZoneComponent implements OnInit {
   testValue;
   selectedObject;
   locationName;
+  locations;
+  events;
   loader;
 
   constructor(public router: Router, public config: NgbCarouselConfig, private _http: HttpClient ) {
@@ -96,35 +98,26 @@ export class ZoneComponent implements OnInit {
   }
 
   ngOnInit() {
-		var days = 6; // Days you want to subtract
-		var date = new Date();
-		var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
-		var day = last.getDate();
-		var month = last.getMonth() + 1;
-		var year = last.getFullYear();
 
-		this.setDate = month+'/'+day+'/'+year;
+    var enddate = moment().format("MM/DD/YYYY");
+    var startdate = moment().subtract(6, "days").format("MM/DD/YYYY");
+    var seconddate = moment(startdate).add('days', 1).format("MM/DD/YYYY");
+    var thirddate = moment(seconddate).add('days', 1).format("MM/DD/YYYY");
+    var fourthdate = moment(thirddate).add('days', 1).format("MM/DD/YYYY");
+    var fifthdate = moment(fourthdate).add('days', 1).format("MM/DD/YYYY");
+    var sixthdate = moment(fifthdate).add('days', 1).format("MM/DD/YYYY");
+
+    //moment(startdate).utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
 
 		//End date before 7days from Today
-		this.minDate = new Date(year, new Date().getMonth(), day);
-
+		this.minDate = new Date(startdate);
 		//Starting date Today
-		this.maxDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-
-		this.secondDate = new Date( this.minDate );
-		this.secondDate.setDate(this.secondDate.getDate() + 1);
-
-		this.thirdDate = new Date( this.secondDate );
-		this.thirdDate.setDate(this.thirdDate.getDate() + 1);
-
-		this.fourthDate = new Date( this.thirdDate );
-		this.fourthDate.setDate(this.fourthDate.getDate() + 1);
-
-		this.fifthDate = new Date( this.fourthDate );
-		this.fifthDate.setDate(this.fifthDate.getDate() + 1);
-
-		this.sixthDate = new Date( this.fifthDate );
-		this.sixthDate.setDate(this.sixthDate.getDate() + 1);
+		this.maxDate = new Date(enddate);
+		this.secondDate = new Date(seconddate);
+		this.thirdDate = new Date(thirddate);
+		this.fourthDate = new Date(fourthdate);
+		this.fifthDate = new Date(fifthdate);
+		this.sixthDate = new Date(sixthdate);
 
 		this.thumbnailDates.push(
       { 'key': 'firstSlot', 'label': this.minDate, 'dateFormat':  moment.utc(this.minDate).format(), 'show': true, 'galleryImages': {} }, 
@@ -175,8 +168,8 @@ export class ZoneComponent implements OnInit {
     const ZoneHttpUrl = "https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/image-history";
     const userCredentials = JSON.parse(sessionStorage.getItem('userDetails'));
     const locationDetails = JSON.parse(sessionStorage.getItem('locationDetails'));
-    const fromDate = year+'-'+month+'-'+day;
-    const toDate = this.maxDate.getFullYear()+'-'+ month +'-'+this.maxDate.getDate();
+    const fromDate = moment( startdate ).format('YYYY-MM-DD');
+    const toDate = moment( enddate ).format('YYYY-MM-DD');
     const ZonePayLoad = JSON.stringify(
         {
            "customer_id": userCredentials['customer_id'],
@@ -194,6 +187,8 @@ export class ZoneComponent implements OnInit {
     );
 
     this.locationName = locationDetails['location_name'];
+    this.locations = locationDetails;
+    this.events = locationDetails['events'];
 
     /* Service call to get Site details */
     return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
@@ -210,6 +205,8 @@ export class ZoneComponent implements OnInit {
           })
           .value();
          this.galleryResults = result;
+
+         //debugger;
 
          const tDates = _.map(this.thumbnailDates, function(item, index ) {
           var localTime = moment(item['dateFormat']).format('YYYY-MM-DD'); // store localTime

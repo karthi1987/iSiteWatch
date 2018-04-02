@@ -189,13 +189,6 @@
 			overflow: hidden;
 			padding-left: 2%;
 
-			@media all and (min-width: 300px) and (max-width:750px) {
-				width: 100%;
-				height: auto;
-				flex-flow: column nowrap;
-				overflow: visible;
-			}
-
 			@include breakpoint( tablet ) {
 				display: none;
 			}
@@ -218,9 +211,6 @@
 				flex-flow: row wrap;
 				justify-content: space-between;
 				margin: 0 0 5% 0;
-				@media all and (min-width: 300px) and (max-width:700px) {
-					width: 100%;
-				}
 				.date-row-image {
 					margin: 5% 0 0 0;
 					height: 135px;
@@ -238,7 +228,7 @@
 				    height: 175px;
 				    font-weight: 700;
 				    margin-right: 2%;
-				    width: 225px;
+				    width: 210px;
 					.date-wrapper {
 						min-height: 20px;
 					}

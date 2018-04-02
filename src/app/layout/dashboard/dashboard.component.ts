@@ -233,12 +233,46 @@ export class DashboardComponent implements OnInit {
         this.alerts.splice(index, 1);
     }
 
+    public getEventsWarningsByLocationId( item: String, identifier: String ) {
+       let result = {};
+       const filteredEvent = _.find(this.events, { location_id: identifier } );
+       if( filteredEvent && filteredEvent.eventsInfo && filteredEvent.eventsInfo.length > 0 ) {
+          const expectedItem = _.find(filteredEvent.eventsInfo, { 'sensor_id': item } );
+          result = expectedItem;
+       }
+       return result;
+    }
+
     navigateToZone(location) {
         const locationDetails = {
             device_id: location.device_id,
             location_id: location.location_id,
-            location_name: location.location_name
+            location_name: location.location_name,
+            location_humidity: location.location_humidity,
+            location_location: location.location_location,
+            location_temperature: location.location_temperature,
+            location_lastupdate: location.location_lastupdate,
+            location_display: [],
+            events: {}
         };
+
+       locationDetails.location_display.push( {
+            'name': 'Current Humidity',
+            'value': location.location_humidity,
+            'key': 'location_humidity',
+            'events': this.getEventsWarningsByLocationId( 'humidity', location.location_id  )
+
+        },
+        {
+            'value': location.location_temperature,
+            'name': 'Current Temperature',
+            'key': 'location_temperature',
+            'events': this.getEventsWarningsByLocationId( 'temperature', location.location_id  )
+        } );
+
+        if( this.events && this.events.length > 0 ) {
+            locationDetails.events = _.find(this.events, { location_id: location.location_id });
+        }
 
         if (sessionStorage) {
             sessionStorage.setItem('locationDetails', JSON.stringify(locationDetails));

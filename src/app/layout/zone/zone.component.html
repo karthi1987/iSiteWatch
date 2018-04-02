@@ -54,7 +54,39 @@
 			</div>
 		</div>
 	</div>
-	<div class="page-footer-image-carousel"></div>
+	<div class="page-hero-image page-footer-image-carousel">
+		<div class="box box-primary" *ngIf="locations.location_display && locations.location_display?.length > 0">
+			<div class="box-header with-border"></div>
+			<div class="box-body">
+				<div class="list-group no-padding">
+					<li class="list-group-item clearfix d-block" *ngFor="let info of locations.location_display">
+							<i class="fa fa-tint fa-fw" *ngIf="info['key']=='location_humidity'"></i>
+							<i class="fa fa-thermometer-full fa-fw" *ngIf="info['key']=='location_temperature'"></i>
+						 	{{ info.name }}
+						<span class="float-right text-muted small bg-red" *ngIf="isObjectEmpty(info.events) == false">{{ info.events.event_value }}</span>
+						<span class="float-right text-muted small bg-normal" *ngIf="isObjectEmpty(info.events)">{{ info['key'] }}</span>
+					</li>
+					<li class="list-group-item clearfix d-block">
+			            <i class="fa fa-eye fa-fw"></i> Motion detection
+			            <span class="float-right text-muted small">
+			               <!-- <em>December 7, 2017
+			                <br>1:37:53 PM GMT-06:00</em>
+			               -->
+			               {{locations.location_lastupdate | date: 'MM/dd/yyyy hh:mm:ss a'}}
+			            </span>
+			        </li>
+				    <li class="list-group-item clearfix d-block">
+			            <i class="fa fa-location-arrow fa-fw"></i>Geo Location
+			            <span class="float-right text-muted small">
+			                <em>{{locations.location_location}}</em>
+			            </span>
+			        </li>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
 </div>
 
 <style>
