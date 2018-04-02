@@ -41,7 +41,7 @@ $ npm run build
 
 ### If you happened to see any erros run the command below,
 ```bash
-$ npm uninstall --save-dev webpack
+$ npm uninstall --save-dev webpack@3.4.1
 $ rm -rf node_modules
 $ npm cache clean
 $ npm install
