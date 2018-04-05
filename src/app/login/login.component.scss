@@ -2,6 +2,9 @@ $topnav-background-color: #222;
 :host {
     display: block;
 }
+.form-content {
+    text-align: left;
+}
 .login-page {
     position: absolute;
     top: 0;
@@ -58,7 +61,7 @@ $topnav-background-color: #222;
         font-weight: 300;
         margin-top: 20px;
         margin-bottom: 10px;
-        font-size: 36px;
+        font-size: 2.2em;
         small {
             color: rgba(255, 255, 255, 0.7);
         }
@@ -83,6 +86,9 @@ $topnav-background-color: #222;
         input:-ms-input-placeholder {
             color: rgba(255, 255, 255, 0.6) !important;
         }
+        span {
+            display: block;
+        }
     }
     .form-content {
         padding: 40px 0;
@@ -92,4 +98,21 @@ $topnav-background-color: #222;
         border-radius: 50%;
         border: 2px solid #fff;
     }
+    #error {
+        font-size: 1.2em;
+        color: #cc0000;
+        margin-top: 2%;
+        display: block;
+    }
+}
+.password-callout {
+    color: #ccc;
+    font-size: 0.8em;
+}
+.forgot-password {
+    color: #dcdcdc;
+    display: block;
+}
+.submitted-message {
+    margin-top: 10px;
 }

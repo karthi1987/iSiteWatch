@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { AppDefaults } from '../../defaultvalue';
@@ -7,6 +9,8 @@ import { Output } from '@angular/core/src/metadata/directives';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import * as AWS from 'aws-sdk';
+import * as $ from 'jquery';
+
 AWS.config.update({
     region: AppDefaults.REGION,
     credentials: new AWS.Credentials(AppDefaults.ACCESS_KEY_ID, AppDefaults.SECRET_KEY)
@@ -21,14 +25,80 @@ const dynamodb = new AWS.DynamoDB({ region: 'us-east-1' });
     animations: [routerTransition()]
 })
 export class LoginComponent implements OnInit {
+
     constructor(public router: Router, private _http: HttpClient) {}
 
     username: string;
     userpass: string;
+    myform: FormGroup;
+    user;
 
-    ngOnInit() {}
+    ngOnInit() {
+      this.user = { name: '', password: '', credentials: false, token: false };
+    }
 
-    onLoggedin() {
+    onSignIn(regForm:NgForm){  
+      
+      if( regForm.submitted && regForm.valid ) {
+        const userValue = this.user.name;
+        const passValue = this.user.password;
+
+        const ZoneHttpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+        const ZoneHttpUrl = "https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/authenticate";
+        const ZonePayLoad = JSON.stringify(
+            {
+            "user_login": userValue,
+            "user_pass": passValue
+            }
+        );
+
+        return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
+          results => {
+            const loginResults = results;
+              if( 
+                loginResults['status'] 
+                && loginResults['status']['message'] 
+                && ( loginResults['status']['message'] == 'INVALID_USER' || loginResults['status']['message'] == 'INVALID_CREDENTIALS' ) ) {
+                this.user.credentials = true;
+                this.user.token = false;
+                console.log('Login failed');
+                return false;
+                //this.router.navigate(['/login']);
+              }
+
+             if( 
+               loginResults['errorMessage'] 
+               && loginResults['errorMessage'] == "TOKEN_EXPIRED" ) {
+               this.user.credentials = false;
+               this.user.token = true;
+                console.log('Login Token expired');
+               return false;
+             }
+
+             if( !loginResults['data'] ) {
+                 this.router.navigate(['/login']);
+             }
+
+             if( sessionStorage ) {
+                this.user.credentials = false;
+                this.user.token = false;
+                sessionStorage.setItem('userDetails', JSON.stringify( loginResults['data'] ));
+                this.router.navigate(['/dashboard']);
+             }
+           },
+           error => {
+             console.error("Error saving food!");
+             //return Observable.throw(error);
+           }
+        );
+      }
+    }
+
+    onLoggedin( event ) {
+
+      //event.preventDefault();
 
         //Test
 
@@ -77,44 +147,5 @@ export class LoginComponent implements OnInit {
             }
         });
         */
-
-
-    const passValue = this.userpass;
-    const userValue = this.username;
-    const ZoneHttpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
-    const ZoneHttpUrl = "https://wejllcr10k.execute-api.us-east-1.amazonaws.com/BETA/authenticate";
-    const ZonePayLoad = JSON.stringify(
-        {
-        "user_login": userValue,
-        "user_pass": passValue
-        }
-    );
-
-   return this._http.post(ZoneHttpUrl, ZonePayLoad, ZoneHttpOptions).subscribe(
-      results => {
-        const loginResults = results;
-         if( loginResults['errorMessage'] &&  loginResults['errorMessage'] == "TOKEN_EXPIRED" ) {
-           return false;
-         }
-
-         if( !loginResults['data'] ) {
-             throw Error('Login failed');
-             //Window.location('/login');
-         }
-
-         if( sessionStorage ) {
-          sessionStorage.setItem('userDetails', JSON.stringify( loginResults['data'] ));
-         }
-         return loginResults;
-       },
-       error => {
-         console.error("Error saving food!");
-         //return Observable.throw(error);
-       }
-    );
-
-
     }
 }
