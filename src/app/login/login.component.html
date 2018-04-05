@@ -1,20 +1,114 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row justify-content-md-center">
-        <div class="col-md-4">
-            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>iSiteWatch Login</h1>
-            <form role="form">
-                <div class="form-content">
-                    <div class="form-group">
-                        <input type="text" (input)="username=$event.target.value" ng-model="username" class="form-control input-underline input-lg" id="" placeholder="User">
-                    </div>
 
-                    <div class="form-group">
-                        <input type="password" (input)="userpass=$event.target.value" ng-model="userpass" class="form-control input-underline input-lg" id="" placeholder="Password">
-                    </div>
-                </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
+Formatted HTML:
+<div class="login-page" [@routerTransition]>
+<div class="row">
+   <div class="col-xs-6 col-md-6">
+      <div class="row">
+         <div class="col-xs-6">
+            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+         </div>
+         <div class="col-md-8">
+            <h1>
+               Welcome to iSiteWatch
+               <p>Let's get started!</p>
+            </h1>
+            <!-- <form role="form" #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+               <div class="form-content">
+                 <div><h2>Sign In</h2></div>
+                   <div class="form-group">
+                       <label for="email">User Name</label>
+                       <input type="text" (input)="username=$event.target.value" ng-model="username" class="form-control input-underline input-lg" id="username" placeholder="User Name/Email Address">
+                   </div>
+               
+                   <div class="form-group">
+                       <label for="email">Password</label>
+                       <input type="password" (input)="userpass=$event.target.value" ng-model="userpass" class="form-control input-underline input-lg" id="userpass" placeholder="Enter in Password">
+                       <span id="error"></span>
+                   </div> 
+               
+               
+                   <div>
+                       <label>Username</label>
+                       <input type="text" name="username" [ngModel]="user.username" required minlength="5" maxlength="8" #username="ngModel">
+                       <small [hidden]="username.valid || (username.pristine && !f.submitted)">
+                           Username is required (minimum 5 characters).
+                       </small>
+                   </div>
+                   <pre *ngIf="username.errors">{{ username.errors | json }}</pre>
+               
+               </div>
+               
+               <button type="submit" [disabled]="!myForm.valid">Submit</button>
+               <button class="btn rounded-btn" (click)="onLoggedin(event)"> Log in </button>
+               <a class="btn rounded-btn" [routerLink]="['/dashboard']" > </a>
+               </form> -->
+            <form #signInForm="ngForm" (ngSubmit)="onSignIn(signInForm)" class="form-content">
+            <div>
+               <div>
+                  <h2>Sign In</h2>
+               </div>
+               <div class="form-group">
+                  <label for="name">User Name</label>
+                  <input id="name" name="name" class="form-control"
+                  required minlength="4" appForbiddenName="bob"
+                  [(ngModel)]="user.name" #name="ngModel" placeholder="User Name/Email Address" >
+                  <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                     class="alert alert-danger">
+                     <div *ngIf="name.errors.required">
+                        Name is required.
+                     </div>
+                     <div *ngIf="name.errors.minlength">
+                        Name must be at least 4 characters long.
+                     </div>
+                     <div *ngIf="name.errors.forbiddenName">
+                        Name cannot be Bob.
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" class="form-control"
+                  required minlength="8" appForbiddenPassword="user.password"
+                  [(ngModel)]="user.password" #password="ngModel" placeholder="Enter in Password">
+                  <span class="password-callout">Example: Test@123</span>
+                  <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                     class="alert alert-danger">
+                     <div *ngIf="password.errors.required">
+                        Password is required.
+                     </div>
+                     <div *ngIf="password.errors.minlength">
+                        Password must be at least 8 characters long.
+                     </div>
+                     <div *ngIf="password.errors.forbiddenPassword">
+                        <p>Password should be unique and follow the below format</p>
+                        <span>At least 8 characters in length</span>
+                        <span>Lowercase letter</span>
+                        <span>Uppercase letter</span>
+                        <span>Number</span>
+                        <span>Special character</span>
+                     </div>
+                  </div>
+               </div>
+               <div style="text-align: center;">
+                  <button type="submit" class="btn btn-default"
+                     [disabled]="signInForm.invalid">Login</button>
+               </div>
+               <div>
+                  <a href="javascript:void(0)" class="forgot-password ">Forgot Password </a>
+               </div>
+               <!-- <button type="button" class="btn btn-default"
+                  (click)="heroForm.resetForm({})">Reset</button> -->
+            </div>
+            <div class="submitted-message" *ngIf="signInForm.submitted">
+               <p *ngIf="user.credentials" class="alert alert-danger">Please validate your credentials, Sign In failed!</p>
+               <p *ngIf="user.token" class="alert alert-danger">Your token is expired, Please Sign In again.</p>
+            </div>
             </form>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-xs-6 col-md-6">
+      <img src="/assets/images/image_4.jpeg" />
+   </div>
+</div>
 </div>

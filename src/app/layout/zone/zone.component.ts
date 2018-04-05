@@ -206,8 +206,6 @@ export class ZoneComponent implements OnInit {
           .value();
          this.galleryResults = result;
 
-         //debugger;
-
          const tDates = _.map(this.thumbnailDates, function(item, index ) {
           var localTime = moment(item['dateFormat']).format('YYYY-MM-DD'); // store localTime
           var proposedDate = localTime + "T00:00:00.000Z"; // convert the localTime to UTC format
